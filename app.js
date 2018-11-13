@@ -81,6 +81,21 @@ function removeTask(e) {
         listItem = link.parentElement;
   
   if (link.classList.contains('delete-item')) listItem.remove();
+  removeTaskFromLocaleStorage(listItem);
+}
+
+function removeTaskFromLocaleStorage(taskItem) {
+  let tasks;
+
+  tasks = JSON.parse(localStorage.getItem('tasks'));
+
+  tasks.forEach((task, index) => {
+    if (taskItem.textContent === task) {
+      tasks.splice(index, 1);
+    }
+  });
+
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function clearTasks(e) {
@@ -89,6 +104,12 @@ function clearTasks(e) {
   while (taskList.firstChild) {
     taskList.removeChild(taskList.firstChild);
   }
+
+  clearTasksFromLocalStorage();
+}
+
+function clearTasksFromLocalStorage() {
+  localStorage.clear();
 }
 
 function filterTasks(e) {

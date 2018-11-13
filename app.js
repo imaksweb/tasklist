@@ -5,6 +5,7 @@ const filter = document.getElementById('filter');
 const clearBtn = document.querySelector('.clear-tasks');
 
 function loadEventListeners() {
+  document.addEventListener('DOMContentLoaded', getTasks);
   form.addEventListener('submit', addTask);
   taskList.addEventListener('click', removeTask);
   clearBtn.addEventListener('click', clearTasks);
@@ -13,33 +14,66 @@ function loadEventListeners() {
 
 loadEventListeners();
 
+function getTasks() {
+  let tasks;
+
+  if (localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+    tasks.forEach(task => {
+      renderTask(task);
+    })
+  }
+}
+
 function addTask(e) {
   e.preventDefault();
 
-  const inputValue = taskInput.value,
-        li = document.createElement('li'),
-        text = document.createElement('div'),
-        link = document.createElement('a');
+  const inputValue = taskInput.value;
 
   taskInput.value = '';
 
   if (inputValue === '') {
     alert('Please add task!'); // Нужно будет доработать
   } else {
-    li.className = 'collection__item';
-
-    text.className = 'collection__item-text';
-    text.textContent = inputValue;
-
-    li.appendChild(text);
-
-    link.className = 'delete-item';
-    link.innerHTML = '<i class="fa fa-remove"></i>';
-
-    li.appendChild(link);
-
-    taskList.appendChild(li);
+    renderTask(inputValue);
+    addTaskToLocalStorage(inputValue);
   }
+}
+
+function addTaskToLocalStorage(task) {
+  let tasks;
+
+  if (localStorage.getItem('tasks') === null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+  }
+
+  tasks.push(task);
+
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function renderTask(value) {
+  const li = document.createElement('li'),
+        text = document.createElement('div'),
+        link = document.createElement('a');
+
+  li.className = 'collection__item';
+
+  text.className = 'collection__item-text';
+  text.textContent = value;
+
+  li.appendChild(text);
+
+  link.className = 'delete-item';
+  link.innerHTML = '<i class="fa fa-remove"></i>';
+
+  li.appendChild(link);
+
+  taskList.appendChild(li);
 }
 
 function removeTask(e) {

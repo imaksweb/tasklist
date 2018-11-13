@@ -6,6 +6,7 @@ const clearBtn = document.querySelector('.clear-tasks');
 
 function loadEventListeners() {
   form.addEventListener('submit', addTask);
+  taskList.addEventListener('click', removeTask);
 }
 
 loadEventListeners();
@@ -35,5 +36,11 @@ function addTask(e) {
   li.appendChild(link);
 
   taskList.appendChild(li);
+}
 
+function removeTask(e) {
+  const link = e.target.parentElement,
+        listItem = link.parentElement;
+  
+  if (link.classList.contains('delete-item')) listItem.remove();
 }

@@ -160,6 +160,7 @@ h1, h2, h3, h4, h5, h6 {
   color: rgb(255, 171, 64);
   transition: color .3s;
   display: block;
+  cursor: pointer;
 }
 
 .delete-item:hover {

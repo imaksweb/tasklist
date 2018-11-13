@@ -7,6 +7,7 @@ const clearBtn = document.querySelector('.clear-tasks');
 function loadEventListeners() {
   form.addEventListener('submit', addTask);
   taskList.addEventListener('click', removeTask);
+  clearBtn.addEventListener('click', clearTasks);
 }
 
 loadEventListeners();
@@ -21,21 +22,23 @@ function addTask(e) {
 
   taskInput.value = '';
 
-  if (inputValue === '') alert('Please add task!'); // Нужно будет доработать
+  if (inputValue === '') {
+    alert('Please add task!'); // Нужно будет доработать
+  } else {
+    li.className = 'collection__item';
 
-  li.className = 'collection__item';
+    text.className = 'collection__item-text';
+    text.textContent = inputValue;
 
-  text.className = 'collection__item-text';
-  text.textContent = inputValue;
+    li.appendChild(text);
 
-  li.appendChild(text);
+    link.className = 'delete-item';
+    link.innerHTML = '<i class="fa fa-remove"></i>';
 
-  link.className = 'delete-item';
-  link.innerHTML = '<i class="fa fa-remove"></i>';
+    li.appendChild(link);
 
-  li.appendChild(link);
-
-  taskList.appendChild(li);
+    taskList.appendChild(li);
+  }
 }
 
 function removeTask(e) {
@@ -43,4 +46,12 @@ function removeTask(e) {
         listItem = link.parentElement;
   
   if (link.classList.contains('delete-item')) listItem.remove();
+}
+
+function clearTasks(e) {
+  e.preventDefault();
+
+  while (taskList.firstChild) {
+    taskList.removeChild(taskList.firstChild);
+  }
 }

@@ -1,8 +1,10 @@
-const form = document.getElementById('task-form');
-const taskInput = document.getElementById('task');
-const taskList = document.querySelector('.collection');
-const filter = document.getElementById('filter');
-const clearBtn = document.querySelector('.clear-tasks');
+const form = document.getElementById('task-form'),
+      taskInput = document.getElementById('task'),
+      taskList = document.querySelector('.collection'),
+      filter = document.getElementById('filter'),
+      clearBtn = document.querySelector('.clear-tasks'),
+      tasksCard = document.querySelector('.card__action');
+
 
 function loadEventListeners() {
   document.addEventListener('DOMContentLoaded', getTasks);
@@ -117,7 +119,7 @@ function filterTasks(e) {
         itemLists = document.querySelectorAll('.collection__item');
   
   itemLists.forEach(item => {
-    const taskText = item.firstChild.textContent;
+    const taskText = item.firstChild.textContent.toLowerCase();
     
     if (taskText.indexOf(text) !== -1) {
       item.style.display = 'flex';
